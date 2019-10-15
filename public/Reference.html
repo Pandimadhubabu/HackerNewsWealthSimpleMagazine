@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://connect.facebook.net/signals/config/1591692697715219?v=2.9.5&amp;r=stable" async=""></script>
+    <script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script>
+    <script async="" src="//d.impactradius-event.com/A397784-2c61-4e2a-aa54-b5208d57eafb1.js"></script>
+    <script type="text/javascript" async="" src="//bat.bing.com/bat.js"></script>
+    <script type="text/javascript" async="" src="//static.ads-twitter.com/uwt.js"></script>
+    <script type="text/javascript" async="" src="//www.googleadservices.com/pagead/conversion_async.js"></script>
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script type="text/javascript" async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-5ZPLFTS&amp;l=dataLayer"></script>
+    <script type="text/javascript" async="" src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"></script>
+    <script type="text/javascript" async="" src="https://cdn.segment.com/analytics.js/v1/otgKj51AFj4qIfen2uK4IPN0WdJPDHB0/analytics.min.js"></script>
+    <script>
+        // This error surfaces as a result of a bug in versions of Chrome for iOS
+        // prior to v61. This message format is only applicable to production and
+        // is directly tied to our current domain.
+        var AMAZON_ADS_BLOCKED_FRAME_PROD = 'Blocked a frame with origin "https://www.wealthsimple.com" from accessing a frame with origin "https://s.amazon-adsystem.com". Protocols, domains, and ports must match.';
+        var DOUBLECLICK_BLOCKED_FRAME_PROD = 'Blocked a frame with origin "https://www.wealthsimple.com" from accessing a frame with origin "https://5363320.fls.doubleclick.net". Protocols, domains, and ports must match.';
+        var ERROR_GETTING_REASON_PROD = '[unhandledrejection] error getting `reason` from event';
+
+        var IGNORED_MESSAGES = [
+            AMAZON_ADS_BLOCKED_FRAME_PROD,
+            DOUBLECLICK_BLOCKED_FRAME_PROD,
+            ERROR_GETTING_REASON_PROD
+        ];
+
+        // Cleans up telemetry events by removing noise and obfuscating user inputs.
+        function cleanUpTelemetry(payload) {
+            payload.body.telemetry = payload.body.telemetry
+                // Suppress segment and mixpanel noise from the Telemetry.
+                .filter(isNotAnalyticsXhr)
+                .map(function(event) {
+                    if (event.type === 'dom' &&
+                        event.body.subtype === 'input' &&
+                        event.body.value) {
+                        var unObfuscatedPrefix = event.body.value.substring(0, 3);
+                        var obfuscatedContent = event.body.value.substring(3);
+                        event.body.value = unObfuscatedPrefix + obfuscatedContent.replace(/([a-zA-Z0-9])/g, '*');
+                    }
+                    return event;
+                });
+        }
+
+        function isNotAnalyticsXhr(event) {
+            if (event.type !== 'network') {
+                return true;
+            }
+            const url = event && event.body && event.body.url ? event.body.url : '';
+            return !url.startsWith('https://api.mixpanel.com') &&
+                !url.startsWith('https://api.segment.io');
+        }
+
+        var _rollbarConfig = {
+            accessToken: '477dc97b78684e59af8e30dfbe183c26',
+            captureUncaught: true,
+            captureUnhandledRejections: true,
+            ignoredMessages: IGNORED_MESSAGES,
+            transform: cleanUpTelemetry,
+            payload: {
+                environment: 'production',
+            },
+        };
+        // Rollbar Snippet
+        ! function(r) {
+            function e(n) {
+                if (o[n]) return o[n].exports;
+                var t = o[n] = {
+                    exports: {},
+                    id: n,
+                    loaded: !1
+                };
+                return r[n].call(t.exports, t, t.exports, e), t.loaded = !0, t.exports
+            }
+            var o = {};
+            return e.m = r, e.c = o, e.p = "", e(0)
+        }([function(r, e, o) {
+            "use strict";
+            var n = o(1),
+                t = o(4);
+            _rollbarConfig = _rollbarConfig || {}, _rollbarConfig.rollbarJsUrl = _rollbarConfig.rollbarJsUrl || "https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/2.3.9/rollbar.min.js", _rollbarConfig.async = void 0 === _rollbarConfig.async || _rollbarConfig.async;
+            var a = n.setupShim(window, _rollbarConfig),
+                l = t(_rollbarConfig);
+            window.rollbar = n.Rollbar, a.loadFull(window, document, !_rollbarConfig.async, _rollbarConfig, l)
+        }, function(r, e, o) {
+            "use strict";
+
+            function n(r) {
+                return function() {
+                    try {
+                        return r.apply(this, arguments)
+                    } catch (r) {
+                        try {
+                            console.error("[Rollbar]: Internal error", r)
+                        } catch (r) {}
+                    }
+                }
+            }
+
+            function t(r, e) {
+                this.options = r, this._rollbarOldOnError = null;
+                var o = s++;
+                this.shimId = function() {
+                    return o
+                }, "undefined" != typeof window && window._rollbarShims && (window._rollbarShims[o] = {
+                    handler: e,
+                    messages: []
+                })
+            }
+
+            function a(r, e) {
+                if (r) {
+                    var o = e.globalAlias || "Rollbar";
+                    if ("object" == typeof r[o]) return r[o];
+                    r._rollbarShims = {}, r._rollbarWrappedError = null;
+                    var t = new p(e);
+                    return n(function() {
+                        e.captureUncaught && (t._rollbarOldOnError = r.onerror, i.captureUncaughtExceptions(r, t, !0), i.wrapGlobals(r, t, !0)), e.captureUnhandledRejections && i.captureUnhandledRejections(r, t, !0);
+                        var n = e.autoInstrument;
+                        return e.enabled !== !1 && (void 0 === n || n === !0 || "object" == typeof n && n.network) && r.addEventListener && (r.addEventListener("load", t.captureLoad.bind(t)), r.addEventListener("DOMContentLoaded", t.captureDomContentLoaded.bind(t))), r[o] = t, t
+                    })()
+                }
+            }
+
+            function l(r) {
+                return n(function() {
+                    var e = this,
+                        o = Array.prototype.slice.call(arguments, 0),
+                        n = {
+                            shim: e,
+                            method: r,
+                            args: o,
+                            ts: new Date
+                        };
+                    window._rollbarShims[this.shimId()].messages.push(n)
+                })
+            }
+            var i = o(2),
+                s = 0,
+                d = o(3),
+                c = function(r, e) {
+                    return new t(r, e)
+                },
+                p = d.bind(null, c);
+            t.prototype.loadFull = function(r, e, o, t, a) {
+                var l = function() {
+                        var e;
+                        if (void 0 === r._rollbarDidLoad) {
+                            e = new Error("rollbar.js did not load");
+                            for (var o, n, t, l, i = 0; o = r._rollbarShims[i++];)
+                                for (o = o.messages || []; n = o.shift();)
+                                    for (t = n.args || [], i = 0; i < t.length; ++i)
+                                        if (l = t[i], "function" == typeof l) {
+                                            l(e);
+                                            break
+                                        }
+                        }
+                        "function" == typeof a && a(e)
+                    },
+                    i = !1,
+                    s = e.createElement("script"),
+                    d = e.getElementsByTagName("script")[0],
+                    c = d.parentNode;
+                s.crossOrigin = "", s.src = t.rollbarJsUrl, o || (s.async = !0), s.onload = s.onreadystatechange = n(function() {
+                    if (!(i || this.readyState && "loaded" !== this.readyState && "complete" !== this.readyState)) {
+                        s.onload = s.onreadystatechange = null;
+                        try {
+                            c.removeChild(s)
+                        } catch (r) {}
+                        i = !0, l()
+                    }
+                }), c.insertBefore(s, d)
+            }, t.prototype.wrap = function(r, e, o) {
+                try {
+                    var n;
+                    if (n = "function" == typeof e ? e : function() {
+                            return e || {}
+                        }, "function" != typeof r) return r;
+                    if (r._isWrap) return r;
+                    if (!r._rollbar_wrapped && (r._rollbar_wrapped = function() {
+                            o && "function" == typeof o && o.apply(this, arguments);
+                            try {
+                                return r.apply(this, arguments)
+                            } catch (o) {
+                                var e = o;
+                                throw "string" == typeof e && (e = new String(e)), e._rollbarContext = n() || {}, e._rollbarContext._wrappedSource = r.toString(), window._rollbarWrappedError = e, e
+                            }
+                        }, r._rollbar_wrapped._isWrap = !0, r.hasOwnProperty))
+                        for (var t in r) r.hasOwnProperty(t) && (r._rollbar_wrapped[t] = r[t]);
+                    return r._rollbar_wrapped
+                } catch (e) {
+                    return r
+                }
+            };
+            for (var u = "log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleUnhandledRejection,captureEvent,captureDomContentLoaded,captureLoad".split(","), f = 0; f < u.length; ++f) t.prototype[u[f]] = l(u[f]);
+            r.exports = {
+                setupShim: a,
+                Rollbar: p
+            }
+        }, function(r, e) {
+            "use strict";
+
+            function o(r, e, o) {
+                if (r) {
+                    var t;
+                    "function" == typeof e._rollbarOldOnError ? t = e._rollbarOldOnError : r.onerror && !r.onerror.belongsToShim && (t = r.onerror, e._rollbarOldOnError = t);
+                    var a = function() {
+                        var o = Array.prototype.slice.call(arguments, 0);
+                        n(r, e, t, o)
+                    };
+                    a.belongsToShim = o, r.onerror = a
+                }
+            }
+
+            function n(r, e, o, n) {
+                r._rollbarWrappedError && (n[4] || (n[4] = r._rollbarWrappedError), n[5] || (n[5] = r._rollbarWrappedError._rollbarContext), r._rollbarWrappedError = null), e.handleUncaughtException.apply(e, n), o && o.apply(r, n)
+            }
+
+            function t(r, e, o) {
+                if (r) {
+                    "function" == typeof r._rollbarURH && r._rollbarURH.belongsToShim && r.removeEventListener("unhandledrejection", r._rollbarURH);
+                    var n = function(r) {
+                        var o, n, t;
+                        try {
+                            o = r.reason
+                        } catch (r) {
+                            o = void 0
+                        }
+                        try {
+                            n = r.promise
+                        } catch (r) {
+                            n = "[unhandledrejection] error getting `promise` from event"
+                        }
+                        try {
+                            t = r.detail, !o && t && (o = t.reason, n = t.promise)
+                        } catch (r) {
+                            t = "[unhandledrejection] error getting `detail` from event"
+                        }
+                        o || (o = "[unhandledrejection] error getting `reason` from event"), e && e.handleUnhandledRejection && e.handleUnhandledRejection(o, n)
+                    };
+                    n.belongsToShim = o, r._rollbarURH = n, r.addEventListener("unhandledrejection", n)
+                }
+            }
+
+            function a(r, e, o) {
+                if (r) {
+                    var n, t, a = "EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");
+                    for (n = 0; n < a.length; ++n) t = a[n], r[t] && r[t].prototype && l(e, r[t].prototype, o)
+                }
+            }
+
+            function l(r, e, o) {
+                if (e.hasOwnProperty && e.hasOwnProperty("addEventListener")) {
+                    for (var n = e.addEventListener; n._rollbarOldAdd && n.belongsToShim;) n = n._rollbarOldAdd;
+                    var t = function(e, o, t) {
+                        n.call(this, e, r.wrap(o), t)
+                    };
+                    t._rollbarOldAdd = n, t.belongsToShim = o, e.addEventListener = t;
+                    for (var a = e.removeEventListener; a._rollbarOldRemove && a.belongsToShim;) a = a._rollbarOldRemove;
+                    var l = function(r, e, o) {
+                        a.call(this, r, e && e._rollbar_wrapped || e, o)
+                    };
+                    l._rollbarOldRemove = a, l.belongsToShim = o, e.removeEventListener = l
+                }
+            }
+            r.exports = {
+                captureUncaughtExceptions: o,
+                captureUnhandledRejections: t,
+                wrapGlobals: a
+            }
+        }, function(r, e) {
+            "use strict";
+
+            function o(r, e) {
+                this.impl = r(e, this), this.options = e, n(o.prototype)
+            }
+
+            function n(r) {
+                for (var e = function(r) {
+                        return function() {
+                            var e = Array.prototype.slice.call(arguments, 0);
+                            if (this.impl[r]) return this.impl[r].apply(this.impl, e)
+                        }
+                    }, o = "log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleUnhandledRejection,_createItem,wrap,loadFull,shimId,captureEvent,captureDomContentLoaded,captureLoad".split(","), n = 0; n < o.length; n++) r[o[n]] = e(o[n])
+            }
+            o.prototype._swapAndProcessMessages = function(r, e) {
+                this.impl = r(this.options);
+                for (var o, n, t; o = e.shift();) n = o.method, t = o.args, this[n] && "function" == typeof this[n] && ("captureDomContentLoaded" === n || "captureLoad" === n ? this[n].apply(this, [t[0], o.ts]) : this[n].apply(this, t));
+                return this
+            }, r.exports = o
+        }, function(r, e) {
+            "use strict";
+            r.exports = function(r) {
+                return function(e) {
+                    if (!e && !window._rollbarInitialized) {
+                        r = r || {};
+                        for (var o, n, t = r.globalAlias || "Rollbar", a = window.rollbar, l = function(r) {
+                                return new a(r)
+                            }, i = 0; o = window._rollbarShims[i++];) n || (n = o.handler), o.handler._swapAndProcessMessages(l, o.messages);
+                        window[t] = n, window._rollbarInitialized = !0
+                    }
+                }
+            }
+        }]);
+        // End Rollbar Snippet
+    </script>
+
+    <title>Magazine | Wealthsimple</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet" href="/assets/magazine/above-fold.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <meta property="og:site_name" content="Magazine">
+
+    <meta name="description" content="Stories and Ideas from Wealthsimple">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.wealthsimple.com/en-ca/assets/magazine/images/social/og-image-779514ea6e1da28375cc6b79f79002ef.jpg">
+
+    <script>
+        ! function() {
+            var analytics = window.analytics = window.analytics || [];
+            if (!analytics.initialize)
+                if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice.");
+                else {
+                    analytics.invoked = !0;
+                    analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on"];
+                    analytics.factory = function(t) {
+                        return function() {
+                            var e = Array.prototype.slice.call(arguments);
+                            e.unshift(t);
+                            analytics.push(e);
+                            return analytics
+                        }
+                    };
+                    for (var t = 0; t < analytics.methods.length; t++) {
+                        var e = analytics.methods[t];
+                        analytics[e] = analytics.factory(e)
+                    }
+                    analytics.load = function(t) {
+                        var e = document.createElement("script");
+                        e.type = "text/javascript";
+                        e.async = !0;
+                        e.src = ("https:" === document.location.protocol ? "https://" : "http://") + "cdn.segment.com/analytics.js/v1/" + t + "/analytics.min.js";
+                        var n = document.getElementsByTagName("script")[0];
+                        n.parentNode.insertBefore(e, n)
+                    };
+                    analytics.SNIPPET_VERSION = "4.0.0";
+                    analytics.load("otgKj51AFj4qIfen2uK4IPN0WdJPDHB0");
+
+                    analytics.page('Magazine');
+
+                }
+        }();
+    </script>
+
+    <script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/960786322/?random=1570808910084&amp;cv=9&amp;fst=1570808910084&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=24&amp;u_his=2&amp;u_tz=330&amp;u_java=false&amp;u_nplug=3&amp;u_nmime=4&amp;gtm=2wga21&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=https%3A%2F%2Fwww.wealthsimple.com%2Fen-ca%2Fmagazine&amp;ref=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&amp;tiba=Magazine%20%7C%20Wealthsimple&amp;async=1&amp;rfmt=3&amp;fmt=4"></script>
+</head>
+
+<body class="magazine">
+    <!--
+        Start of DoubleClick Floodlight Tag: Please do not remove
+        Activity name of this tag: Wealthsimple - Homepage
+        URL of the webpage where the tag is expected to be placed: http://www.wealthsimple.com
+        This tag must be placed between the <body> and </body> tags, as close as possible to the opening tag.
+        Creation Date: 02/02/2016
+        -->
+    <script type="text/javascript">
+        var axel = Math.random() + "";
+        var a = axel * 10000000000000;
+        document.write('<iframe src="https://5363320.fls.doubleclick.net/activityi;src=5363320;type=wealt0;cat=wealt0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;ord=' + a + '?" width="1" height="1" frameborder="0" style="display:none"></iframe>');
+    </script>
+    <iframe src="https://5363320.fls.doubleclick.net/activityi;src=5363320;type=wealt0;cat=wealt0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;ord=1879079260368.5947?" width="1" height="1" frameborder="0" style="display:none"></iframe>
+    <noscript>
+        <iframe src="https://5363320.fls.doubleclick.net/activityi;src=5363320;type=wealt0;cat=wealt0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;ord=1?" width="1" height="1" frameborder="0" style="display:none"></iframe>
+    </noscript>
+    <!-- End of DoubleClick Floodlight Tag: Please do not remove -->
+    <!-- The below nav for mobile screens -->
+    <nav class="hamburger-menu hide-md">
+        <div class="hamburger-button-close" data-hamburger-action="close"></div>
+
+        <div class="hamburger-menu-items">
+            <div class="hamburger-menu-items-main">
+                <a href="https://www.wealthsimple.com/en-ca/details" class="hamburger-nav-link">The Details</a>
+                <a class="hamburger-nav-link " href="/en-ca/magazine">Magazine</a>
+                <a href="https://www.wealthsimple.com/en-ca/who-we-are" class="hamburger-nav-link">Who we are</a>
+
+                <a href="https://my.wealthsimple.com/app/login" class="hamburger-nav-link">Sign in</a>
+            </div>
+            <div class="hamburger-menu-items-secondary">
+                <a class="hamburger-nav-link" href="https://my.wealthsimple.com/signup">Start investing</a>
+                <ul class="app-icons">
+                    <li class="app-icon app-icon-ios">
+                        <a href="https://wealthsimple.app.link/1nqeHghK4H" class="" title="Download on the App Store">Download on the App Store</a>
+                    </li>
+                    <li class="app-icon app-icon-android">
+                        <a href="https://wealthsimple.app.link/1nqeHghK4H" class="" title="Download on the App Store">Android app on Google Play</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header class="header js-header header--sticky">
+        <div class="container row row-vertical-center">
+            <a href="/en-ca/" class="header-logo">
+                <img src="/assets/magazine/images/header/logo-010d4e6641c28141d4c88b71646b377a.svg" alt="Wealthsimple" class="header-logo-image">
+                <img src="/assets/magazine/images/header/logo_small-6dccf727ddc595c19f73cecef3069936.svg" alt="Wealthsimple" class="header-logo-image-small">
+            </a>
+            <nav class="header-nav block-md">
+                <ul class="row row-align-right row-align-center">
+                    <li><a href="https://www.wealthsimple.com/en-ca/details" class="header-nav-link">The Details</a></li>
+                    <li><a class="header-nav-link active" href="/en-ca/magazine">Magazine</a></li>
+                    <li><a href="https://my.wealthsimple.com/app/login" class="header-nav-link">Sign in</a></li>
+                    <li><a href="https://my.wealthsimple.com/signup" class="cta cta--www-init-onboarding header-nav-link button">Start investing</a></li>
+                </ul>
+            </nav>
+            <!-- The below nav for mobile screens -->
+            <nav class="sub-nav">
+                <select onchange="location = this.value;" class="sub-nav-select">
+                    <option value="/magazine">Magazine</option>
+                    <option value="/magazine/category/money-diaries">Money Diaries</option>
+                    <option value="/magazine/category/how-to">How To</option>
+                    <option value="/magazine/category/news">News</option>
+                    <option value="/magazine/category/data">Data</option>
+                    <option value="/magazine/category/ask-wealthsimple">Ask Wealthsimple</option>
+                    <option value="/magazine/category/dear-ms-etiquette">Dear Ms. Etiquette</option>
+                </select>
+            </nav>
+            <a class="main-nav-hamburger hamburger-icon hide-md" data-hamburger-action="open">
+                <div class="hamburger-icon-lines">
+                    <div class="hamburger-icon-line"></div>
+                    <div class="hamburger-icon-line"></div>
+                    <div class="hamburger-icon-line"></div>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <link rel="stylesheet" href="/assets/magazine/application.css">
+
+    <section class="container magazine-container">
+        <section class="magazine-hero">
+            <span class="ws-logo-container">
+                    <img src="/assets/magazine/images/header/logo-010d4e6641c28141d4c88b71646b377a.svg" alt="Wealthsimple" class="ws-logo">
+                </span>
+            <h1 class="h1-bold">Magazine</h1>
+            <h2 class="magazine-subtitle">Stories and Ideas from Wealthsimple</h2>
+            <a href="#" class="newsletter-signup">
+                <!--Sign up for newsletter-->
+            </a>
+            <nav class="sub-nav sub-nav-full">
+                <ul class="row row-align-center row-align-bottom">
+                    <li class="sub-nav-link"><a href="/en-ca/magazine" class="active">All Stories</a></li>
+                    <li class="sub-nav-link"><a href="/en-ca/magazine/category/money-diaries">Money Diaries</a></li>
+                    <li class="sub-nav-link"><a href="/en-ca/magazine/category/how-to">How To</a></li>
+                    <li class="sub-nav-link"><a href="/en-ca/magazine/category/news">News</a></li>
+                    <li class="sub-nav-link"><a href="/en-ca/magazine/category/data">Data</a></li>
+                    <li class="sub-nav-link"><a href="/en-ca/magazine/category/ask-wealthsimple">Ask Wealthsimple</a></li>
+                    <li class="sub-nav-link"><a href="/en-ca/magazine/category/dear-ms-etiquette">Dear Ms. Etiquette</a></li>
+                </ul>
+            </nav>
+        </section>
+        <div class="row-lg">
+            <div class="posts-container">
+                <div class="featured-post">
+                    <a href="/en-ca/magazine/money-diary-lavonne-ellis">
+                        <img src="https://wealthsimple-grow.ghost.io/content/images/2019/10/van_final_color--1--1.jpg" alt="feature-magazine-post-image">
+                        <div class="post-excerpt featured-post-excerpt">
+                            <span class="post-category">Money Diaries</span>
+                            <h3 class="post-excerpt-title">Life Among America’s Four-Wheeled Nomads</h3>
+                            <p>LaVonne Ellis took to the road when she was 67. Six years later –– multiple vans, adventures, disasters, and miracles –– she's still figuring out how to balance her love of the road with the perils of life without a safety net.</p>
+                        </div>
+                    </a>
+                </div>
+                <section class="category-recent-posts">
+                    <div class="category-recent-posts-intro">
+                        <h2 class="h2-bold">Money Diaries</h2>
+                        <p class="category-description">
+                            Interesting people talking candidly about money.
+
+                            <a href="/en-ca/magazine/category/money-diaries" class="standard-link link-see-all">See all</a>
+
+                        </p>
+                    </div>
+                    <ul class="recent-posts js-load-more-posts-target js-macy-container" style="position: relative; height: 1284px;">
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: 0px;">
+                            <a href="/en-ca/magazine/money-diary-sugar-ray-leonard">
+                                <div class="recent-post-image-container">
+                                    <img src="https://wealthsimple-grow.ghost.io/content/images/2019/10/sugarrayleonard_finalartboard_1_copy_6-1.jpg">
+                                </div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Money Diaries</span>
+                                    <h3 class="post-excerpt-title">Boxing Legend “Sugar” Ray Leonard Was Never a Fighter</h3>
+                                    <p>He never wanted to be a professional boxer, he wanted to be a substitute teacher. Until his father got sick. The money story of the legendary five-time world champion, Olympic gold medalist, and one of the greatest pound-for-pound fighters in history.</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/money-diary-matty-matheson">
+                                <div class="recent-post-image-container">
+                                    <img src="https://wealthsimple-grow.ghost.io/content/images/2019/09/MattyM_final.jpg">
+                                </div>
+                                <div class="post-excerpt">
+                                    <span class="post-category">Money Diaries</span>
+                                    <h3 class="post-excerpt-title">The Path to Financial Freedom Is a Heart Attack: The Matty Matheson Story</h3>
+                                    <p>He was 31 years old, an addict, and completely broke. How the chef and host of Viceland’s ‘Deadset on Life,’ got his act together and became a Toronto restaurant legend.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 666px; left: 0px;">
+                            <a href="/en-ca/magazine/money-diary-anastasia-soare">
+                                <div class="recent-post-image-container">
+                                    <img src="https://wealthsimple-grow.ghost.io/content/images/2019/08/AnastasiaSoare_final_color-1.jpg">
+                                </div>
+                                <div class="post-excerpt">
+                                    <span class="post-category">Money Diaries</span>
+                                    <h3 class="post-excerpt-title">The Queen of the $3 Billion Eyebrow Empire</h3>
+                                    <p>Anastasia Soare arrived in America with, literally, zero dollars. She believed in hard work, and that people should care about the hair above their eyeballs. This is the story of her and her eyebrows.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 638px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/money-diary-rachel-d-williams">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/08/Anna-Sorokin-Art-Final-1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Money Diaries</span>
+                                    <h3 class="post-excerpt-title">How I was Conned by the “Fake German Heiress”</h3>
+                                    <p>Rachel DeLoache Williams’ relationship with Anna Delvey began over drinks and infrared saunas, but it ended with a $60,000 bill, a grand jury, and a new understanding of friendship and financial crime.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="load-more-posts">
+                        <a href="#" class="button load-more-posts-button js-load-more-posts" data-category="?category_id=money-diaries">More posts</a>
+                    </div>
+                </section>
+
+                <section class="category-recent-posts">
+                    <div class="category-recent-posts-intro">
+                        <h2 class="h2-bold">How To</h2>
+                        <p class="category-description">
+                            Smart and simple advice on how to be a financial grownup.
+
+                            <a href="/en-ca/magazine/category/how-to" class="standard-link link-see-all">See all</a>
+
+                        </p>
+                    </div>
+                    <ul class="recent-posts js-load-more-posts-target js-macy-container" style="position: relative; height: 1228px;">
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: 0px;">
+                            <a href="/en-ca/magazine/how-to-financially-prep-for-kids">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/06/Financially-Ready-to-Have-a-Kid--1--1-1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">How To</span>
+                                    <h3 class="post-excerpt-title">Seven Financial Moves to Make When You Know You’re Having a Kid</h3>
+                                    <p>There are a few simple ways to make sure you have your ducks in a row when you become a parent. Do them as soon as you can! You’re a responsible adult now, after all. Here’s how.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/how-to-avoid-the-mom-penalty">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/06/Final_Mom-Penalty--2-.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">How To</span>
+                                    <h3 class="post-excerpt-title">How to Avoid the Mom Penalty</h3>
+                                    <p>Being a mother has historically meant less pay, a compromised career, and other unpleasant vocational things. But there are ways to fight against that. A guide to navigating the four key mom-penalty moments.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 638px; left: 0px;">
+                            <a href="/en-ca/magazine/how-to-ipo">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/05/screen_shot_2019-05-07_at_10.47.18_am_copy.png"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">How To</span>
+                                    <h3 class="post-excerpt-title">A User’s Guide to Participating (or Not!) in an IPO</h3>
+                                    <p>A guide to the frenzy, the idiocy, the opportunity, and everything else you need to know before investing (or not) in IPOs.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 634px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/how-to-trade-wars">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2018/07/trade-war-final.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">How To</span>
+                                    <h3 class="post-excerpt-title">Trade Wars! (Should I Be Scared?)</h3>
+                                    <p>What tension between governments means for your investment decisions.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="load-more-posts">
+                        <a href="#" class="button load-more-posts-button js-load-more-posts" data-category="?category_id=how-to">More posts</a>
+                    </div>
+                </section>
+
+                <section class="category-recent-posts">
+                    <div class="category-recent-posts-intro">
+                        <h2 class="h2-bold">News</h2>
+                        <p class="category-description">
+                            Stay up-to-date on the latest news from Wealthsimple.
+
+                            <a href="/en-ca/magazine/category/news" class="standard-link link-see-all">See all</a>
+
+                        </p>
+                    </div>
+                    <ul class="recent-posts js-load-more-posts-target js-macy-container" style="position: relative; height: 1252px;">
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: 0px;">
+                            <a href="/en-ca/magazine/news-simpletax">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/09/Simple-Tax-Announcement.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">News</span>
+                                    <h3 class="post-excerpt-title">Welcome SimpleTax, the Newest Addition to the Wealthsimple Family</h3>
+                                    <p>If you love SimpleTax (or don’t know you love it yet) you’ll be thrilled to know it’s now another way Wealthsimple is making your money life better.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/news-portfolio-dashboard-update">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/08/Option-2.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">News</span>
+                                    <h3 class="post-excerpt-title">The Wealthsimple Experience Is About to Get Even Better</h3>
+                                    <p>When you log in to Wealthsimple in the next week, things are going to look a little different. Our new experience gives you a clearer picture of where you are, so you can make better decisions about where you want to go.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 638px; left: 0px;">
+                            <a href="/en-ca/magazine/news-tiny-stadium">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/08/Main.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">News</span>
+                                    <h3 class="post-excerpt-title">The Stadium We Were Born to Sponsor</h3>
+                                    <p>Today we unveil Wealthsimple’s first sports arena. It’s gorgeous, brand new, and the size of a large Caesar salad.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 666px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/news-core-portfolio-update">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/08/WS-Portfolio-Art-Final-1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">News</span>
+                                    <h3 class="post-excerpt-title">Your Portfolio Just Got Even Smarter</h3>
+                                    <p>We’ve made some really important tweaks to our investment mix, designed to help protect you in a downturn and leave you poised for better returns in the future.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="load-more-posts">
+                        <a href="#" class="button load-more-posts-button js-load-more-posts" data-category="?category_id=news">More posts</a>
+                    </div>
+                </section>
+
+                <section class="category-recent-posts">
+                    <div class="category-recent-posts-intro">
+                        <h2 class="h2-bold">Data</h2>
+                        <p class="category-description">
+                            Smart insights into the world of money.
+
+                            <a href="/en-ca/magazine/category/data" class="standard-link link-see-all">See all</a>
+
+                        </p>
+                    </div>
+                    <ul class="recent-posts js-load-more-posts-target js-macy-container" style="position: relative; height: 1224px;">
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: 0px;">
+                            <a href="/en-ca/magazine/price-of-owning-cats">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/07/Cat1_final-3.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Data</span>
+                                    <h3 class="post-excerpt-title">The Price of Love (Meow!)</h3>
+                                    <p>How much will it cost to have a cat — this year, next year, for the rest of its natural born life? We did some math.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/data-kawhi-leonard">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/06/Cawhi_FLag_4-Noise.png"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Data</span>
+                                    <h3 class="post-excerpt-title">Kawhi: Best. Trade. Ever. In history. Of the Universe.</h3>
+                                    <p>No. We’re not being hyberbolic. (Yes we are.) But as folks who like trades (be they in financial markets or the NBA), here’s our argument that the Kawhi Leonard trade was the best in NBA history. </p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 578px; left: 0px;">
+                            <a href="/en-ca/magazine/data-helicopter-parenting">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/04/Genius-chat--1-.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Data</span>
+                                    <h3 class="post-excerpt-title">Dumb Questions for Smart People: Why Helicopter Parenting Is a Response to Income Inequality</h3>
+                                    <p>The economics of the way we raise our children — and the psychological repercussions it causes.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 666px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/data-cost-of-owning-dogs">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/04/Labradoodle_final--1--3.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Data</span>
+                                    <h3 class="post-excerpt-title">The Price of Love (Woof!)</h3>
+                                    <p>How much will it cost to have a dog — this year, next year, for the rest of its natural born life? We did some math.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="load-more-posts">
+                        <a href="#" class="button load-more-posts-button js-load-more-posts" data-category="?category_id=data">More posts</a>
+                    </div>
+                </section>
+
+                <section class="category-recent-posts">
+                    <div class="category-recent-posts-intro">
+                        <h2 class="h2-bold">Ask Wealthsimple</h2>
+                        <p class="category-description">
+                            Our resident financial genius answers your burning finance-related questions.
+
+                            <a href="/en-ca/magazine/category/ask-wealthsimple" class="standard-link link-see-all">See all</a>
+
+                        </p>
+                    </div>
+                    <ul class="recent-posts js-load-more-posts-target js-macy-container" style="position: relative; height: 1228px;">
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: 0px;">
+                            <a href="/en-ca/magazine/ask-wealthsimple-five-finance-questions">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2018/05/170517-ask-2.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Ask Wealthsimple</span>
+                                    <h3 class="post-excerpt-title">The Five Most Common Financial Questions: Answered</h3>
+                                    <p>We rounded up our Portfolio Managers and asked them which things pretty much everyone wants to know. </p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/ask-wealthsimple-fees">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2018/04/1-1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Ask Wealthsimple</span>
+                                    <h3 class="post-excerpt-title">Why Should I Pay Wealthsimple a 0.5% Fee?</h3>
+                                    <p>If you want to know if our fees are worth it, read this, see the services we provide, and decide for yourself. (We're pretty confident.)</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 610px; left: 0px;">
+                            <a href="/en-ca/magazine/ask-wealthsimple-smart-savings">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2018/03/170517-ask-7--1-.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Ask Wealthsimple</span>
+                                    <h3 class="post-excerpt-title">Why Would I Ever Put Money In Savings Instead of Investing It?</h3>
+                                    <p>Because a savings account is crucial to any smart financial plan. (That's the reason we launched Wealthsimple Save.) Unless you don't care about risk or making your money make money.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 606px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/ask-wealthsimple-financial-track">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2017/11/170517-ask-4.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Ask Wealthsimple</span>
+                                    <h3 class="post-excerpt-title">How Do I Know if I’m on the Right Financial Track?</h3>
+                                    <p>Maybe you’ve started — investing, saving. Maybe you’re ready to start. But you’re not sure if you’re doing it right. Here’s our simple guide.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="load-more-posts">
+                        <a href="#" class="button load-more-posts-button js-load-more-posts" data-category="?category_id=ask-wealthsimple">More posts</a>
+                    </div>
+                </section>
+
+                <section class="category-recent-posts">
+                    <div class="category-recent-posts-intro">
+                        <h2 class="h2-bold">Dear Ms. Etiquette</h2>
+                        <p class="category-description">
+
+                            <a href="/en-ca/magazine/category/dear-ms-etiquette" class="standard-link link-see-all">See all</a>
+
+                        </p>
+                    </div>
+                    <ul class="recent-posts js-load-more-posts-target js-macy-container" style="position: relative; height: 1224px;">
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: 0px;">
+                            <a href="/en-ca/magazine/ms-etiquette-environmentalist-consumer-concerns">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/09/4--2--1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Dear Ms. Etiquette</span>
+                                    <h3 class="post-excerpt-title">I Want to Be Green But It’s Too Expensive!</h3>
+                                    <p>Our columnist takes on the conundrum of wanting to be responsible but not being able to afford sustainable body wash and eco jeans. Hint: it’s not about what you buy.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 0px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/ms-etiquette-raptors-riot">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/06/Ms-Etiquette-art9-1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Dear Ms. Etiquette</span>
+                                    <h3 class="post-excerpt-title">Can I Run Crazy in the Streets if the Raptors Win Or is it Un-Canadian?</h3>
+                                    <p>People lose their ever-loving minds when their sports teams win championships. Can it be done in a more Canadian, less horrible dumpster-fire way? We answer your burning (sorry) questions.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 606px; left: 0px;">
+                            <a href="/en-ca/magazine/ms-etiquette-payment-apps-ca">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2019/02/MsEtiquette-8-1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Dear Ms. Etiquette</span>
+                                    <h3 class="post-excerpt-title">Is Your Payment App Making You Passive Aggressive?</h3>
+                                    <p>Our columnist explores the slippery ethics of using payment apps, and how they can actually make dealing with money weirder.</p>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="recent-posts-post" style="width: calc(50% - 10px); position: absolute; top: 638px; left: calc(50% + 10px);">
+                            <a href="/en-ca/magazine/ms-etiquette-lending-to-family">
+
+                                <div class="recent-post-image-container"><img src="https://wealthsimple-grow.ghost.io/content/images/2018/11/MsEtiquette-7-1.jpg"></div>
+
+                                <div class="post-excerpt">
+                                    <span class="post-category">Dear Ms. Etiquette</span>
+                                    <h3 class="post-excerpt-title">Do I Have to Lend My Siblings Money?</h3>
+                                    <p>Our columnist explores the delicate art of lending money to family: what to know, how to protect yourself, how to be fair, and maybe most important, how to say no if you need to</p>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="load-more-posts">
+                        <a href="#" class="button load-more-posts-button js-load-more-posts" data-category="?category_id=dear-ms-etiquette">More posts</a>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="container-full main-footer">
+        <div class="container footer-upper-block">
+            <div class="footer-content">
+                <div class="footer-list-wrapper">
+                    <ul class="footer-list">
+                        <li>About us</li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/who-we-are" class="footer-link">Who we are</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-list-wrapper">
+                    <ul class="footer-list">
+                        <li>Learn more</li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/details" class="footer-link">The Details</a></li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/investing-101" class="footer-link">Investing 101</a></li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/socially-responsible-investing" class="footer-link">Responsible investing</a></li>
+
+                        <li><a href="https://www.wealthsimple.com/en-ca/halal-investing" class="footer-link">Halal investing</a></li>
+
+                        <li><a href="https://www.wealthsimple.com/en-ca/black" class="footer-link">Wealthsimple Black</a></li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/magazine" class="footer-link">Magazine</a></li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/portfolio-review" class="footer-link">Financial Portfolio Review</a></li>
+                    </ul>
+                </div>
+                <div class="footer-list-wrapper">
+                    <ul class="footer-list">
+                        <li>Legal</li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/legal/terms" class="footer-link">Terms of use</a></li>
+                        <li><a href="https://www.wealthsimple.com/en-ca/legal/privacy" class="footer-link">Privacy policy</a></li>
+
+                        <li><a href="https://www.wealthsimple.com/en-ca/legal/disclosure" class="footer-link">Full disclosure</a></li>
+
+                        <li><a href="https://www.wealthsimple.com/en-ca/legal/file-complaint" class="footer-link">File a complaint</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-list-wrapper social">
+                    <ul class="footer-list">
+                        <li>Download the App</li>
+                        <li class="app-icon app-icon-ios">
+                            <a href="https://wealthsimple.app.link/OdfWdQXv6H" target="_blank" class="" title="Download on the App Store">
+              Download on the App Store
+            </a>
+                        </li>
+                        <li class="app-icon app-icon-android">
+                            <a href="https://wealthsimple.app.link/UAIkaTZv6H" target="_blank" class="" title="Download on the App Store">
+              Android app on Google Play
+            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="container footer-lower-block">
+            <div class="footer-content">
+                <div class="footer-list-wrapper footer-list-wrapper-contact">
+                    <ul class="footer-list">
+                        <li>Questions?</li>
+                        <li><a href="https://help.wealthsimple.com/hc/en-ca/" class="footer-link">Support centre</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-list-wrapper">
+
+                    <ul class="footer-list footer-list-with-active">
+                        <li>Language</li>
+                        <li onclick="ws.util.cookieSetGlobal('language_override', 'en', { 'max-age': 365*24*60*60 })">
+                            <a href="/en-ca/magazine" class="active footer-link">
+                English
+              </a>
+                        </li>
+                        <li onclick="ws.util.cookieSetGlobal('language_override', 'fr', { 'max-age': 365*24*60*60 })">
+                            <a href="/fr-ca/magazine" class=" footer-link">
+                Français
+              </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="footer-list-wrapper">
+                    <ul class="footer-list footer-list-with-active">
+                        <li>Country</li>
+                        <li class="country country-gb">
+                            <a href="/en-gb/magazine" class=""></a>
+                        </li>
+                        <li class="country country-us">
+                            <a href="/en-us/magazine" class=""></a>
+                        </li>
+                        <li class="country country-ca">
+                            <a href="/en-ca/magazine" class="active"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-list-wrapper social">
+                    <ul class="footer-list">
+                        <li>Social</li>
+                        <li class="footer-social-icon">
+                            <a href="https://www.facebook.com/wealthsimple" target="_footer" class="footer-link"><i class="ss-icon">facebook</i></a>
+                        </li>
+                        <li class="footer-social-icon">
+                            <a href="https://twitter.com/Wealthsimple" target="_footer" class="footer-link"><i class="ss-icon">twitter</i></a>
+                        </li>
+                        <li class="footer-social-icon">
+                            <a href="https://www.instagram.com/wealthsimple/" target="_footer" class="footer-link"><i class="ss-icon">instagram</i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-ws-for-links">
+
+                <a href="https://www.wealthsimple.com/en-ca/advisors" class="footer-link footer-ws-for-links-link">Wealthsimple for Advisors</a>
+
+                <a href="https://www.wealthsimple.com/en-ca/work" class="footer-link footer-ws-for-links-link">Wealthsimple for Work</a>
+
+            </div>
+        </div>
+        <div class="footer-copyright risk-warning-en-ca">
+            <p><strong>By using this website, you accept our <a href="https://www.wealthsimple.com/en-ca/legal/terms">Terms of Use</a> and <a href="https://www.wealthsimple.com/en-ca/legal/privacy">Privacy Policy</a>. Copyright 2019 Wealthsimple Technologies Inc.</strong></p>
+        </div>
+    </footer>
+
+    <script src="/assets/magazine/vendor.js"></script>
+    <script src="/assets/magazine/magazine.js"></script>
+
+    <div class="hamburger-menu-overlay" data-hamburger-action="close"></div>
+    <script type="text/javascript" id="">
+        (function(g, e, a, f, b, c, d) {
+            b.ire_o = a;
+            b[a] = b[a] || function() {
+                (b[a].a = b[a].a || []).push(arguments)
+            };
+            c = f.createElement(e);
+            d = f.getElementsByTagName(e)[0];
+            c.async = 1;
+            c.src = g;
+            d.parentNode.insertBefore(c, d)
+        })("//d.impactradius-event.com/A397784-2c61-4e2a-aa54-b5208d57eafb1.js", "script", "ire", document, window);
+    </script>
+    <script type="text/javascript" id="">
+        ! function(b, e, f, g, a, c, d) {
+            b.fbq || (a = b.fbq = function() {
+                a.callMethod ? a.callMethod.apply(a, arguments) : a.queue.push(arguments)
+            }, b._fbq || (b._fbq = a), a.push = a, a.loaded = !0, a.version = "2.0", a.queue = [], c = e.createElement(f), c.async = !0, c.src = g, d = e.getElementsByTagName(f)[0], d.parentNode.insertBefore(c, d))
+        }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+        fbq("init", "1591692697715219");
+        fbq("set", "agent", "tmgoogletagmanager", "1591692697715219");
+        fbq("track", "PageView");
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1591692697715219&amp;ev=PageView&amp;noscript=1"></noscript>
+    <div style="width:0px; height:0px; display:none; visibility:hidden;" id="batBeacon0.5063843952814466"><img style="width:0px; height:0px; display:none; visibility:hidden;" id="batBeacon0.11022640220484226" width="0" height="0" alt="" src="https://bat.bing.com/action/0?ti=5039308&amp;Ver=2&amp;mid=523258c3-18d7-beeb-ebaa-44c0381f89c5&amp;pi=1200101525&amp;lg=en-US&amp;sw=1366&amp;sh=768&amp;sc=24&amp;tl=Magazine%20%7C%20Wealthsimple&amp;p=https%3A%2F%2Fwww.wealthsimple.com%2Fen-ca%2Fmagazine&amp;r=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&amp;lt=980&amp;evt=pageLoad&amp;msclkid=N&amp;rn=271926"></div>
+    <script src="https://analytics.twitter.com/i/adsct?p_id=Twitter&amp;p_user_id=0&amp;txn_id=nvb9t&amp;events=%5B%5B%22pageview%22%2Cnull%5D%5D&amp;tw_sale_amount=0&amp;tw_order_quantity=0&amp;tw_iframe_status=0&amp;tpx_cb=twttr.conversion.loadPixels&amp;tw_document_href=https%3A%2F%2Fwww.wealthsimple.com%2Fen-ca%2Fmagazine" type="text/javascript"></script>
+</body>
+
+</html>

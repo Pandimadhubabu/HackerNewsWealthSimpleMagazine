@@ -1,0 +1,40 @@
+{
+  "name": "wealthsimple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-brands-svg-icons": "^5.11.2",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/react-fontawesome": "^0.1.6",
+    "autoprefixer": "^9.6.4",
+    "postcss-cli": "^6.1.3",
+    "react": "16.8.3",
+    "react-cache": "2.0.0-alpha.1",
+    "react-dom": "16.8.3",
+    "react-media": "^1.10.0",
+    "react-scripts": "2.1.5",
+    "react-testing-library": "6.0.0",
+    "styled-components": "^4.4.0",
+    "tailwindcss": "^1.1.2",
+    "url-metadata": "^2.4.0",
+    "vanilla-tilt": "1.6.1"
+  },
+  "scripts": {
+    "start": "npm run build:style && react-scripts start",
+    "build": "react-scripts build",
+    "build:style": "postcss src/styles/index.css -o public/build/tailwind.css",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "author": "Susmitha",
+  "license": "ISC",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {}
+}
